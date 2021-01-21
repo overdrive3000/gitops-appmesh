@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+spec:
+  releaseName: cluster-autoscaler
+  chart:
+    spec:
+      chart: cluster-autoscaler
+      sourceRef:
+        kind: HelmRepository
+        name: cluster-autoscaler
+        namespace: flux-system
+  interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    autoDiscovery:
+      clusterName: lab01
+      tags:
+      - k8s.io/cluster-autoscaler/enabled
+      - k8s.io/cluster-autoscaler/lab01
+    awsRegion: eu-west-1
+    extraArgs:
+      expander: random
+      balance-similar-node-groups: true
+    podDisruptionBudget:
+      maxUnavailable: 1
+    repolicaCount: 3
+    rbac:
+      create: true
+      serviceAccount:
+        create: false
+        name: cluster-autoscaler
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 200m
+        memory: 256Mi
+    serviceMonitor:
+      enabled: false
+    # priorityClassName: system-critical ### CREATE via Flux
