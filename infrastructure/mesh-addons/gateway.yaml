@@ -22,3 +22,6 @@ spec:
   values:
     appmesh:
       gateway: true
+    serviceAccount:
+      create: false
+      name: envoy-authorization
