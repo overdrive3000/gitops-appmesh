@@ -12,6 +12,10 @@ spec:
         kind: HelmRepository
         name: eks
         namespace: flux-system
+  values:
+    serviceAccount:
+      create: "false"
+      name: appmesh-controller
   interval: 5m
   install:
     remediation:
