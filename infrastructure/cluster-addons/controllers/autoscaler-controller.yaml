@@ -31,7 +31,7 @@ spec:
       balance-similar-node-groups: true
     podDisruptionBudget:
       maxUnavailable: 1
-    repolicaCount: 3
+    replicaCount: 3
     rbac:
       create: true
       serviceAccount:
